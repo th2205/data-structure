@@ -11,16 +11,22 @@ typedef struct Node
 // set head pointer
 Node *head = NULL;
 
-void insert(int data)
+Node *createNode(int data)
 {
-    // (Node *) -> pointer type casting void to Node
     Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
 
+    return newNode;
+}
+
+void insert(Node *node)
+{
+    // (Node *) -> pointer type casting void to Node
+
     if (head == NULL)
     {
-        head = newNode;
+        head = node;
 
         return;
     }
@@ -33,9 +39,31 @@ void insert(int data)
         cur = cur->next;
     }
 
-    cur->next = newNode;
+    cur->next = node;
 
     return;
+}
+
+void insertNode(Node *prev, int data)
+{
+    Node *newNode = createNode(data);
+    Node *nextNode = prev->next;
+
+    if (nextNode == NULL)
+    {
+        prev->next = newNode;
+
+        return;
+    }
+
+    prev->next = newNode;
+    newNode->next = nextNode;
+
+    return;
+}
+
+void deleteNode()
+{
 }
 
 void print()
@@ -56,9 +84,14 @@ int main()
     printf("Linked List\n");
     printf("\n");
 
-    insert(1);
-    insert(2);
-    insert(3);
+    Node *first = createNode(1);
+    Node *second = createNode(2);
+    Node *third = createNode(3);
+
+    insert(first);
+    insert(second);
+    insert(third);
+    insertNode(second, 4);
 
     printf("Print Linked List\n");
     print();
